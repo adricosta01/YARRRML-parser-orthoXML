@@ -1,0 +1,22 @@
+prefixes:
+  ex: http://www.example.com/
+  e: http://myontology.com/
+  dbo: http://dbpedia.org/ontology/
+  grel: http://users.ugent.be/~bjdmeest/function/grel.ttl#
+mappings:
+  city:
+    subject: https://www.example.org/city/$(location_city)/
+    predicateobjects:
+      - [a, 'http://purl.org/ontology/places#City']
+      - ['http://schema.org/hasCelebrity', artist]
+      - ['rdfs:label', $(location_city)]
+  artist:
+    subject: https://www.example.org/artist/$(name)/
+    predicateobjects:
+      - [a, 'http://schema.org/Person']
+      - [a, 'http://dbpedia.org/ontology/Singer']
+      - [a, 'http://dbpedia.org/ontology/MusicalArtist']
+      - ['http://dbpedia.org/ontology/activeYearsEndDate', $(bio_yearsactiveend), 'http://www.w3.org/2001/XMLSchema#date']
+      - ['http://dbpedia.org/ontology/name', $(name)]
+      - ['http://dbpedia.org/ontology/location', city]
+      - ['http://www.w3.org/2000/01/rdf-schema#label', $(name)]
