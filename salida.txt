@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Alignment>
+<schemas><schema>1406106202578/orthoxml.xsd</schema></schemas>
+<xmls></xmls>
+<ontotarget>1406106207741/OGO.owl</ontotarget>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://purl.org/ontology/places#City</id></class>
+    <arch>
+        <nodepath>https://www.example.org/city/$(location_city)/</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Prop</type>
+    <class><id>http://purl.org/ontology/places#City</id></class>
+    <arch>
+        <nodepath>https://www.example.org/city/$(location_city)/</nodepath>
+    </arch>
+</map>
+<predicate><id>http://schema.org/hasCelebrity</id></predicate>
+<target>
+	<arch>
+		<valuepath>artist</valuepath>
+	</arch>
+</target>
+<map>
+    <type>Arch2Prop</type>
+    <class><id>http://purl.org/ontology/places#City</id></class>
+    <arch>
+        <nodepath>https://www.example.org/city/$(location_city)/</nodepath>
+    </arch>
+</map>
+<predicate><id>rdfs:label</id></predicate>
+<target>
+	<arch>
+		<valuepath>$(location_city)</valuepath>
+	</arch>
+</target>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://schema.org/Person</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://dbpedia.org/ontology/Singer</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://dbpedia.org/ontology/MusicalArtist</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Prop</type>
+    <class><id>http://dbpedia.org/ontology/MusicalArtist</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<predicate><id>http://dbpedia.org/ontology/activeYearsEndDate</id></predicate>
+<target>
+	<arch>
+		<valuepath>$(bio_yearsactiveend)</valuepath>
+	</arch>
+</target>
+<map>
+    <type>Arch2Prop</type>
+    <class><id>http://dbpedia.org/ontology/MusicalArtist</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<predicate><id>http://dbpedia.org/ontology/name</id></predicate>
+<target>
+	<arch>
+		<valuepath>$(name)</valuepath>
+	</arch>
+</target>
+<map>
+    <type>Arch2Prop</type>
+    <class><id>http://dbpedia.org/ontology/MusicalArtist</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<predicate><id>http://dbpedia.org/ontology/location</id></predicate>
+<target>
+	<arch>
+		<valuepath>city</valuepath>
+	</arch>
+</target>
+<map>
+    <type>Arch2Prop</type>
+    <class><id>http://dbpedia.org/ontology/MusicalArtist</id></class>
+    <arch>
+        <nodepath>https://www.example.org/artist/$(name)/</nodepath>
+    </arch>
+</map>
+<predicate><id>http://www.w3.org/2000/01/rdf-schema#label</id></predicate>
+<target>
+	<arch>
+		<valuepath>$(name)</valuepath>
+	</arch>
+</target>
