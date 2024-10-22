@@ -36,14 +36,14 @@
     <type>Arch2Class</type>
     <class><id>http://um.es/ncbi.owl#NCBI_1</id></class>
     <arch>
-        <nodepath>/orthoXML/species/@NCBITaxId]</nodepath>
+        <nodepath>/orthoXML/species</nodepath>
     </arch>
 </map>
 <map>
     <type>Arch2Class</type>
-    <class><id>/orthoXML/species/database/@name</id></class>
+    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Resource</id></class>
     <arch>
-        <nodepath>http://miuras.inf.um.es/ontologies/OGO.owl#Resource</nodepath>
+        <nodepath>/orthoXML/species/database</nodepath>
     </arch>
 </map>
 <map>

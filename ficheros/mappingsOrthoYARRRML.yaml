@@ -15,14 +15,14 @@ mappings:
       - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@geneId]
 
   NCB1:
-    subject: /orthoXML/species/@NCBITaxId]
+    subject: /orthoXML/species
     predicateobject:
       - [a, http://um.es/ncbi.owl#NCBI_1]
 
   resource:
-    subject: http://miuras.inf.um.es/ontologies/OGO.owl#Resource
+    subject: /orthoXML/species/database
     predicateobject: 
-      - [a, /orthoXML/species/database/@name]
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Resource]
   protein:
     subject: /orthoXML/species/database/genes/gene/@id
     predicateobject:
