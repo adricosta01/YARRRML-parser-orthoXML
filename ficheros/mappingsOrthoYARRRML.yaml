@@ -4,19 +4,32 @@ prefixes:
   dbo: http://dbpedia.org/ontology/
   grel: http://users.ugent.be/~bjdmeest/function/grel.ttl#
 mappings:
-  city:
-    subject: https://www.example.org/city/$(location_city)/
-    predicateobjects:
-      - [a, 'http://purl.org/ontology/places#City']
-      - ['http://schema.org/hasCelebrity', artist]
-      - ['rdfs:label', $(location_city)]
-  artist:
-    subject: https://www.example.org/artist/$(name)/
-    predicateobjects:
-      - [a, 'http://schema.org/Person']
-      - [a, 'http://dbpedia.org/ontology/Singer']
-      - [a, 'http://dbpedia.org/ontology/MusicalArtist']
-      - ['http://dbpedia.org/ontology/activeYearsEndDate', $(bio_yearsactiveend), 'http://www.w3.org/2001/XMLSchema#date']
-      - ['http://dbpedia.org/ontology/name', $(name)]
-      - ['http://dbpedia.org/ontology/location', city]
-      - ['http://www.w3.org/2000/01/rdf-schema#label', $(name)]
+  cluster:
+    subject: //orthologGroup
+    predicateobject: 
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Cluster]
+  gene:
+    subject: /orthoXML/species/database/genes/gene/@id
+    predicateobject: 
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Gene]
+      - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@geneId]
+
+  NCB1:
+    subject: /orthoXML/species/@NCBITaxId]
+    predicateobject:
+      - [a, http://um.es/ncbi.owl#NCBI_1]
+
+  resource:
+    subject: http://miuras.inf.um.es/ontologies/OGO.owl#Resource
+    predicateobject: 
+      - [a, /orthoXML/species/database/@name]
+  protein:
+    subject: /orthoXML/species/database/genes/gene/@id
+    predicateobject:
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Protein]
+      - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@protId]
+  
+  paralogous:
+    subject: //paralogGroup
+    predicateobject: 
+      - [a, http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster]

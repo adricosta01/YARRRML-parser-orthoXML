@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Alignment>
+<schemas><schema>1406106202578/orthoxml.xsd</schema></schemas>
+<xmls></xmls>
+<ontotarget>1406106207741/OGO.owl</ontotarget>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Cluster</id></class>
+    <arch>
+        <nodepath>//orthologGroup</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Gene</id></class>
+    <arch>
+        <nodepath>/orthoXML/species/database/genes/gene/@id</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Prop</type>
+    <source>
+        <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Gene</id></class>
+        <arch>
+            <nodepath>/orthoXML/species/database/genes/gene/@id</nodepath>
+        </arch>
+    </source>
+    <predicate><id>http://miuras.inf.um.es/ontologies/OGO.owl#Identifier</id></predicate>
+    <target>
+	    <arch>
+		    <valuepath>../@geneId</valuepath>
+	    </arch>
+    </target>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://um.es/ncbi.owl#NCBI_1</id></class>
+    <arch>
+        <nodepath>/orthoXML/species/@NCBITaxId]</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>/orthoXML/species/database/@name</id></class>
+    <arch>
+        <nodepath>http://miuras.inf.um.es/ontologies/OGO.owl#Resource</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Protein</id></class>
+    <arch>
+        <nodepath>/orthoXML/species/database/genes/gene/@id</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Prop</type>
+    <source>
+        <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Protein</id></class>
+        <arch>
+            <nodepath>/orthoXML/species/database/genes/gene/@id</nodepath>
+        </arch>
+    </source>
+    <predicate><id>http://miuras.inf.um.es/ontologies/OGO.owl#Identifier</id></predicate>
+    <target>
+	    <arch>
+		    <valuepath>../@protId</valuepath>
+	    </arch>
+    </target>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster</id></class>
+    <arch>
+        <nodepath>//paralogGroup</nodepath>
+    </arch>
+</map>
+</Alignment>

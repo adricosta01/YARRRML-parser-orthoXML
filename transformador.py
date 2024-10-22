@@ -59,6 +59,7 @@ def main(source, destination, debug):
         return
     orthoFile = cabecera(mapping)
     orthoFile += parse_to_file_ortho(mapping)
+    orthoFile += orthoFinal()
     destination.write(orthoFile)
     print('End of transformation!')
 
@@ -69,6 +70,10 @@ def cabecera(rml_mapping):
 <xmls>{parse_sources(rml_mapping)}</xmls>
 <ontotarget>{ONTOLOGIA}</ontotarget>"""
     return xml_template
+
+def orthoFinal():
+    return f"""
+</Alignment>"""
 
 def parse_sources(rml_mapping):
     sources = []
@@ -135,17 +140,19 @@ def generarArch2Prop(subject, object_id, predicate, object):
     xml_template = f"""
 <map>
     <type>Arch2Prop</type>
-    <class><id>{object_id}</id></class>
-    <arch>
-        <nodepath>{subject}</nodepath>
-    </arch>
-</map>
-<predicate><id>{predicate}</id></predicate>
-<target>
-	<arch>
-		<valuepath>{object}</valuepath>
-	</arch>
-</target>"""
+    <source>
+        <class><id>{object_id}</id></class>
+        <arch>
+            <nodepath>{subject}</nodepath>
+        </arch>
+    </source>
+    <predicate><id>{predicate}</id></predicate>
+    <target>
+	    <arch>
+		    <valuepath>{object}</valuepath>
+	    </arch>
+    </target>
+</map>"""
     return xml_template
 
 def get_keys(d, keys):
