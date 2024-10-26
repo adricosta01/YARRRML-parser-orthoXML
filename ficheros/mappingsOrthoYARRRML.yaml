@@ -6,30 +6,30 @@ prefixes:
 mappings:
   cluster:
     subject: //orthologGroup
-    predicateobject: 
+    po: 
       - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Cluster]
   gene:
     subject: /orthoXML/species/database/genes/gene/@id
-    predicateobject: 
+    po: 
       - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Gene]
       - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@geneId]
-
   NCB1:
-    subject: /orthoXML/species
-    predicateobject:
+    subject: /orthoXML/species/@NCBITaxId
+    po:
       - [a, http://um.es/ncbi.owl#NCBI_1]
+      - [rdfs:label, /orthoXML/species/@name]
 
   resource:
-    subject: /orthoXML/species/database
-    predicateobject: 
+    subject: /orthoXML/species/database/@name
+    po: 
       - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Resource]
   protein:
     subject: /orthoXML/species/database/genes/gene/@id
-    predicateobject:
+    po:
       - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Protein]
       - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@protId]
   
   paralogous:
     subject: //paralogGroup
-    predicateobject: 
+    po: 
       - [a, http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster]

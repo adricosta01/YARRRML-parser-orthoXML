@@ -110,19 +110,37 @@ def parse_subjects(rml_mapping, prefixes):
     return resources
 
 def parse_predicate_objects(rml_mapping, resources, prefixes):
-    orthoFile=""
+    orthoFile=''
+    orthoFileClass=''
+    orthoFileProp=''
+
     for mapping_key, mapping in get_keys(rml_mapping, YARRRML_KEYS['mappings']).items():
+        
         if mapping_key in resources:
             subject = resources[mapping_key]
             object_id = ''
+            label_id = ''
             for predicate_object in get_keys(mapping, YARRRML_KEYS['predicateobjects']):
+                
                 if 'p' in predicate_object:
                     pass
+
                 elif predicate_object[0] == 'a':
                     object_id = predicate_object[1]
-                    orthoFile+=generarArch2Class(subject, predicate_object[1])
+
+                elif predicate_object[0] == 'rdfs:label':
+                    label_id = predicate_object[1]
+
                 else:
-                    orthoFile+=generarArch2Prop(subject, object_id, predicate_object[0], predicate_object[1])
+                    orthoFileProp+=generarArch2Prop(subject, object_id, predicate_object[0], predicate_object[1])
+            
+            if label_id == '':
+                orthoFileClass+=generarArch2Class(subject, object_id)
+            else:
+                orthoFileClass+=generarArch2ClassLabel(subject, object_id, label_id)
+    
+    orthoFile+=orthoFileClass
+    orthoFile+=orthoFileProp
     return orthoFile
 
 def generarArch2Class(subject, object):
@@ -132,6 +150,43 @@ def generarArch2Class(subject, object):
     <class><id>{object}</id></class>
     <arch>
         <nodepath>{subject}</nodepath>
+    </arch>
+</map>"""
+    return xml_template
+
+def dividir_cadenas(cadena1, cadena2):
+    segmentos1 = cadena1.split('/')
+    segmentos2 = cadena2.split('/')
+    
+    comun = []
+    resto1 = []
+    resto2 = []
+    
+    for seg1, seg2 in zip(segmentos1, segmentos2):
+        if seg1 == seg2:
+            comun.append(seg1)
+        else:
+            resto1 = segmentos1[segmentos1.index(seg1):]
+            resto2 = segmentos2[segmentos2.index(seg2):]
+            break
+    comun = "/".join(comun)
+    resto1 = "/".join(resto1)
+    resto2 = "/".join(resto2)
+    
+    return comun, resto1, resto2
+
+def generarArch2ClassLabel(subject, object, label_id):
+    
+    nodepath, infopath, valuepath = dividir_cadenas(subject, label_id)
+    
+    xml_template = f"""
+<map>
+    <type>Arch2Class</type>
+    <class><id>{object}</id></class>
+    <arch>
+        <nodepath>{nodepath}</nodepath>
+        <infopath>{infopath}</infopath>
+        <valuepath>{valuepath}</valuepath>
     </arch>
 </map>"""
     return xml_template

@@ -18,6 +18,36 @@
     </arch>
 </map>
 <map>
+    <type>Arch2Class</type>
+    <class><id>http://um.es/ncbi.owl#NCBI_1</id></class>
+    <arch>
+        <nodepath>/orthoXML/species</nodepath>
+        <infopath>@NCBITaxId</infopath>
+        <valuepath>@name</valuepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Resource</id></class>
+    <arch>
+        <nodepath>/orthoXML/species/database/@name</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Protein</id></class>
+    <arch>
+        <nodepath>/orthoXML/species/database/genes/gene/@id</nodepath>
+    </arch>
+</map>
+<map>
+    <type>Arch2Class</type>
+    <class><id>http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster</id></class>
+    <arch>
+        <nodepath>//paralogGroup</nodepath>
+    </arch>
+</map>
+<map>
     <type>Arch2Prop</type>
     <source>
         <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Gene</id></class>
@@ -33,27 +63,6 @@
     </target>
 </map>
 <map>
-    <type>Arch2Class</type>
-    <class><id>http://um.es/ncbi.owl#NCBI_1</id></class>
-    <arch>
-        <nodepath>/orthoXML/species</nodepath>
-    </arch>
-</map>
-<map>
-    <type>Arch2Class</type>
-    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Resource</id></class>
-    <arch>
-        <nodepath>/orthoXML/species/database</nodepath>
-    </arch>
-</map>
-<map>
-    <type>Arch2Class</type>
-    <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Protein</id></class>
-    <arch>
-        <nodepath>/orthoXML/species/database/genes/gene/@id</nodepath>
-    </arch>
-</map>
-<map>
     <type>Arch2Prop</type>
     <source>
         <class><id>http://miuras.inf.um.es/ontologies/OGO.owl#Protein</id></class>
@@ -67,12 +76,5 @@
 		    <valuepath>../@protId</valuepath>
 	    </arch>
     </target>
-</map>
-<map>
-    <type>Arch2Class</type>
-    <class><id>http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster</id></class>
-    <arch>
-        <nodepath>//paralogGroup</nodepath>
-    </arch>
 </map>
 </Alignment>
