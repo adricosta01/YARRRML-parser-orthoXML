@@ -1,0 +1,43 @@
+prefixes:
+  ex: http://www.example.com/
+  e: http://myontology.com/
+  dbo: http://dbpedia.org/ontology/
+  grel: http://users.ugent.be/~bjdmeest/function/grel.ttl#
+mappings:
+  cluster:
+    subject: //orthologGroup
+    po: 
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Cluster]
+      - p: http://miuras.inf.um.es/ontologies/OGO.owl#hasOrthologous
+        o: 
+          mapping: gene
+          condition:
+            function: equal
+            parameters:
+            - [str1, $(//orthologGroup), s]
+            - [str2, $(./geneRef/@id), o]
+  gene:
+    subject: /orthoXML/species/database/genes/gene/@id
+    po: 
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Gene]
+      - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@geneId]
+  NCB1:
+    subject: /orthoXML/species/@NCBITaxId
+    po:
+      - [a, http://um.es/ncbi.owl#NCBI_1]
+      - [rdfs:label, /orthoXML/species/@name]
+
+  resource:
+    subject: /orthoXML/species/database/@name
+    po: 
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Resource]
+  protein:
+    subject: /orthoXML/species/database/genes/gene/@id
+    po:
+      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Protein]
+      - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@protId]
+  
+  paralogous:
+    subject: //paralogGroup
+    po: 
+      - [a, http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster]

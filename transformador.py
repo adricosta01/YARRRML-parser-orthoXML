@@ -118,36 +118,46 @@ def parse_predicate_objects(rml_mapping, resources, prefixes):
         
         if mapping_key in resources:
             subject = resources[mapping_key]
-            object_id = ''
+            class_id = ''
             label_id = ''
             for predicate_object in get_keys(mapping, YARRRML_KEYS['predicateobjects']):
                 
                 if 'p' in predicate_object:
-                    pass
+                
+                    predicate = get_keys(predicate_object, YARRRML_KEYS['predicates'])
+                    object = get_keys(predicate_object, YARRRML_KEYS['objects'])
+                    if predicate == 'a':
+                        class_id = object
+                    elif predicate == 'rdfs:label':
+                        label_id = object
+                    elif 'mapping' in object:
+                        pass
+                    else:
+                        orthoFileProp+=generarArch2Prop(subject, class_id, predicate, object)
 
                 elif predicate_object[0] == 'a':
-                    object_id = predicate_object[1]
+                    class_id = predicate_object[1]
 
                 elif predicate_object[0] == 'rdfs:label':
                     label_id = predicate_object[1]
 
                 else:
-                    orthoFileProp+=generarArch2Prop(subject, object_id, predicate_object[0], predicate_object[1])
+                    orthoFileProp+=generarArch2Prop(subject, class_id, predicate_object[0], predicate_object[1])
             
             if label_id == '':
-                orthoFileClass+=generarArch2Class(subject, object_id)
+                orthoFileClass+=generarArch2Class(subject, class_id)
             else:
-                orthoFileClass+=generarArch2ClassLabel(subject, object_id, label_id)
+                orthoFileClass+=generarArch2ClassLabel(subject, class_id, label_id)
     
     orthoFile+=orthoFileClass
     orthoFile+=orthoFileProp
     return orthoFile
 
-def generarArch2Class(subject, object):
+def generarArch2Class(subject, class_id):
     xml_template = f"""
 <map>
     <type>Arch2Class</type>
-    <class><id>{object}</id></class>
+    <class><id>{class_id}</id></class>
     <arch>
         <nodepath>{subject}</nodepath>
     </arch>
@@ -175,14 +185,14 @@ def dividir_cadenas(cadena1, cadena2):
     
     return comun, resto1, resto2
 
-def generarArch2ClassLabel(subject, object, label_id):
+def generarArch2ClassLabel(subject, class_id, label_id):
     
     nodepath, infopath, valuepath = dividir_cadenas(subject, label_id)
     
     xml_template = f"""
 <map>
     <type>Arch2Class</type>
-    <class><id>{object}</id></class>
+    <class><id>{class_id}</id></class>
     <arch>
         <nodepath>{nodepath}</nodepath>
         <infopath>{infopath}</infopath>
