@@ -3,6 +3,7 @@ from rdflib.term import _is_valid_uri as rdflib_is_valid_uri
 from urllib.parse import quote, unquote
 import yaml
 import argparse
+from funcionesAuxiliares import *
 
 import re
 import json
@@ -35,7 +36,9 @@ YARRRML_KEYS = {
     'predicateobjects': ['predicateobjects', 'predicateobject', 'po'],
     'predicates': ['predicates', 'predicate', 'p'],
     'objects': ['objects', 'object', 'o'],
-    'value': ['value', 'v']
+    'value': ['value', 'v'],
+    'parameters': ['parameters'],
+    'condition': ['condition']
 }
 
 
@@ -110,14 +113,17 @@ def parse_subjects(rml_mapping, prefixes):
     return resources
 
 def parse_predicate_objects(rml_mapping, resources, prefixes):
-    orthoFile=''
-    orthoFileClass=''
-    orthoFileProp=''
+    orthoFile = ''
+    orthoFileClass = ''
+    orthoFileProp = ''
+    orthoFileRel = ''
 
     for mapping_key, mapping in get_keys(rml_mapping, YARRRML_KEYS['mappings']).items():
         
         if mapping_key in resources:
             subject = resources[mapping_key]
+            subjectR = ''
+            classR_id = ''
             class_id = ''
             label_id = ''
             for predicate_object in get_keys(mapping, YARRRML_KEYS['predicateobjects']):
@@ -131,9 +137,15 @@ def parse_predicate_objects(rml_mapping, resources, prefixes):
                     elif predicate == 'rdfs:label':
                         label_id = object
                     elif 'mapping' in object:
-                        pass
+                        condition = get_keys(object, YARRRML_KEYS['condition'])
+                        for parameter in get_keys(condition, YARRRML_KEYS['parameters']):
+                            if parameter[2] == 's':
+                                subjectR = parameter[1]
+                            elif parameter[2] == 'o':
+                                classR_id = parameter[1]
+                        orthoFileRel += generarArch2Rel(subject, class_id, predicate, classR_id, subjectR)
                     else:
-                        orthoFileProp+=generarArch2Prop(subject, class_id, predicate, object)
+                        orthoFileProp += generarArch2Prop(subject, class_id, predicate, object)
 
                 elif predicate_object[0] == 'a':
                     class_id = predicate_object[1]
@@ -149,88 +161,13 @@ def parse_predicate_objects(rml_mapping, resources, prefixes):
             else:
                 orthoFileClass+=generarArch2ClassLabel(subject, class_id, label_id)
     
-    orthoFile+=orthoFileClass
-    orthoFile+=orthoFileProp
+    orthoFile += orthoFileClass
+    orthoFile += orthoFileProp
+    orthoFile += orthoFileRel
     return orthoFile
-
-def generarArch2Class(subject, class_id):
-    xml_template = f"""
-<map>
-    <type>Arch2Class</type>
-    <class><id>{class_id}</id></class>
-    <arch>
-        <nodepath>{subject}</nodepath>
-    </arch>
-</map>"""
-    return xml_template
-
-def dividir_cadenas(cadena1, cadena2):
-    segmentos1 = cadena1.split('/')
-    segmentos2 = cadena2.split('/')
-    
-    comun = []
-    resto1 = []
-    resto2 = []
-    
-    for seg1, seg2 in zip(segmentos1, segmentos2):
-        if seg1 == seg2:
-            comun.append(seg1)
-        else:
-            resto1 = segmentos1[segmentos1.index(seg1):]
-            resto2 = segmentos2[segmentos2.index(seg2):]
-            break
-    comun = "/".join(comun)
-    resto1 = "/".join(resto1)
-    resto2 = "/".join(resto2)
-    
-    return comun, resto1, resto2
-
-def generarArch2ClassLabel(subject, class_id, label_id):
-    
-    nodepath, infopath, valuepath = dividir_cadenas(subject, label_id)
-    
-    xml_template = f"""
-<map>
-    <type>Arch2Class</type>
-    <class><id>{class_id}</id></class>
-    <arch>
-        <nodepath>{nodepath}</nodepath>
-        <infopath>{infopath}</infopath>
-        <valuepath>{valuepath}</valuepath>
-    </arch>
-</map>"""
-    return xml_template
-
-def generarArch2Prop(subject, object_id, predicate, object):
-    xml_template = f"""
-<map>
-    <type>Arch2Prop</type>
-    <source>
-        <class><id>{object_id}</id></class>
-        <arch>
-            <nodepath>{subject}</nodepath>
-        </arch>
-    </source>
-    <predicate><id>{predicate}</id></predicate>
-    <target>
-	    <arch>
-		    <valuepath>{object}</valuepath>
-	    </arch>
-    </target>
-</map>"""
-    return xml_template
-
-def get_keys(d, keys):
-    # Get the value of the first key in keys that match a key in d
-    for key in keys:
-        if key in d:
-            return d[key]
-    return {}
-
 
 def is_valid_uri(uri):
     return re.match(url_regex, uri) is not None
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Transform a yarrrml file into an _ file.')
