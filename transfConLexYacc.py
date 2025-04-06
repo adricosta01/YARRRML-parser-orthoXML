@@ -148,15 +148,6 @@ def p_predicateobject(p):
         p[0] = p[1]
         p[0][p[4]] = p[6]
 
-    '''if len(p) == 5:
-        if p[2] not in duplas_po:
-            duplas_po[p[2]] = p[4]
-
-    elif len(p) == 7: #RECURSION
-        if p[4] not in duplas_po:
-           duplas_po[p[4]] = p[6]  
-        duplas_po[p[4]].append(p[6])'''
-
 parser = yacc.yacc()
 
 def pruebaSintactico(data):
