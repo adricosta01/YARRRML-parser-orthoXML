@@ -1,4 +1,5 @@
 import ply.lex as lex;
+import ply.yacc as yacc;
 
 class Resultado:
     def __init__(self, tipo, valor):
@@ -13,15 +14,15 @@ resultado = []
 tokens = (
     'KEY', 'VALUE', 'DASH', 'COLON', 'NEWLINE', 'LBRACKET', 'RBRACKET'
     ,'COMMA', 'HYPHEN', 'PREDICATE', 'PREDICATEOBJECT', 'OBJECT', 'MAPPINGS'
-    ,"SUBJECT", "PREFIX", "CONDITION", "PARAMETERS", "FUNCTION", "MAPPING"
+    ,"SUBJECT", "PREFIXES", "CONDITION", "PARAMETERS", "FUNCTION", "MAPPING"
 )
 
 last_indentation = 0
 indent_stack = []
 
 
-def t_PREFIX(t):
-    r'prefix:[\s\n ]'
+def t_PREFIXES(t):
+    r'prefixes:[\s\n ]'
     t.value = t.value[:-1]
     return t
 
@@ -102,11 +103,68 @@ def t_error(t):
     print(f"Caracter ilegal: '{t.value[0]}'")
     t.lexer.skip(1)
 
+
 lexer = lex.lex()
 
-def prueba(data):
-    global resultado
+duplas_po = {}
 
+def p_yaml(p):
+    '''yaml : prefixes mappings'''
+
+def p_prefixes(p):
+    '''prefixes : PREFIXES sources'''
+
+def p_sources(p):
+    '''sources : KEY VALUE
+               | sources KEY VALUE
+               | '''
+    
+def p_mappings(p):
+    '''mappings : MAPPINGS mapping_entries'''
+
+def p_mapping_entries(p):
+    '''mapping_entries : key
+                       | mapping_entries key'''
+
+def p_key(p):
+    '''key : KEY SUBJECT VALUE PREDICATEOBJECT predicateobject '''
+    subject = p[3]
+    po = p[5]
+    print(f"Subject: {subject}")
+    for pred, obj in po.items():
+        print(f"  Predicate: {pred} -> Object: {obj}")
+        resultado.append(Resultado("PO", (subject, pred, obj)))
+
+def p_predicateobject(p):
+    '''predicateobject : HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+                       | predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+                       | '''
+    
+    if len(p) == 1:
+        p[0] = {}
+    elif len(p) == 7:
+        p[0] = {p[3]: p[5]}
+    else:
+        p[0] = p[1]
+        p[0][p[4]] = p[6]
+
+    '''if len(p) == 5:
+        if p[2] not in duplas_po:
+            duplas_po[p[2]] = p[4]
+
+    elif len(p) == 7: #RECURSION
+        if p[4] not in duplas_po:
+           duplas_po[p[4]] = p[6]  
+        duplas_po[p[4]].append(p[6])'''
+
+parser = yacc.yacc()
+
+def pruebaSintactico(data):
+    parser.parse(data)
+
+
+def pruebaLexico(data):
+    global resultado
     lexer.input(data)
 
     resultado.clear()
@@ -114,49 +172,12 @@ def prueba(data):
         tok = lexer.token()
         if not tok:
             break
-        # print("lexema de "+tok.type+" valor "+tok.value+" linea "tok.lineno)
         resultado.append(Resultado(tok.type, tok.value))
     return resultado
 
 
 if __name__ == '__main__':
-    data = '''prefixes:
-  ex: http://www.example.com/
-  e: http://myontology.com/
-  dbo: http://dbpedia.org/ontology/
-  grel: http://users.ugent.be/~bjdmeest/function/grel.ttl#
-mappings:
-  cluster:
-    subject: //orthologGroup
-    po: 
-      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Cluster]
-  gene:
-    subject: /orthoXML/species/database/genes/gene/@id
-    po: 
-      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Gene]
-      - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@geneId]
-  NCB1:
-    subject: /orthoXML/species/@NCBITaxId
-    po:
-      - [a, http://um.es/ncbi.owl#NCBI_1]
-      - [rdfs:label, /orthoXML/species/@name]
-
-  resource:
-    subject: /orthoXML/species/database/@name
-    po: 
-      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Resource]
-  protein:
-    subject: /orthoXML/species/database/genes/gene/@id
-    po:
-      - [a, http://miuras.inf.um.es/ontologies/OGO.owl#Protein]
-      - [http://miuras.inf.um.es/ontologies/OGO.owl#Identifier, ../@protId]
-  
-  paralogous:
-    subject: //paralogGroup
-    po: 
-      - [a, http://miuras.inf.um.es/ontologies/swit/OGO.owl#ParalogousCluster]
-  '''
-    prueba(data)
-    with open("pruebaLexico.txt", "w") as archivo:
-        for elemento in resultado:
-            archivo.write(str(elemento)+ "\n")
+    data = ""
+    with open("ficheros/mapping.yaml", "r", encoding="utf-8") as file:
+        data = file.read()
+    pruebaSintactico(data)
