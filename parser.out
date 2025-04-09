@@ -1,1 +1,579 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> yaml
+Rule 1     yaml -> prefixes mappings
+Rule 2     prefixes -> PREFIXES sources
+Rule 3     sources -> KEY VALUE
+Rule 4     sources -> sources KEY VALUE
+Rule 5     sources -> <empty>
+Rule 6     mappings -> MAPPINGS mapping_entries
+Rule 7     mapping_entries -> key
+Rule 8     mapping_entries -> mapping_entries key
+Rule 9     key -> KEY SUBJECT VALUE PREDICATEOBJECT predicateobject
+Rule 10    predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+Rule 11    predicateobject -> HYPHEN PREDICATE VALUE OBJECT VALUE
+Rule 12    predicateobject -> HYPHEN PREDICATE VALUE OBJECT relacion
+Rule 13    predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE
+Rule 14    predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT relacion
+Rule 15    predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+Rule 16    predicateobject -> <empty>
+Rule 17    relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+Terminals, with rules where they appear
+
+COMMA                : 10 15 17 17 17 17
+CONDITION            : 17
+FUNCTION             : 17
+HYPHEN               : 10 11 12 13 14 15 17 17
+KEY                  : 3 4 9
+LBRACKET             : 10 15 17 17
+MAPPING              : 17
+MAPPINGS             : 6
+OBJECT               : 11 12 13 14
+PARAMETERS           : 17
+PREDICATE            : 11 12 13 14
+PREDICATEOBJECT      : 9
+PREFIXES             : 2
+RBRACKET             : 10 15 17 17
+SUBJECT              : 9
+VALUE                : 3 4 9 10 10 11 11 12 13 13 14 15 15 17 17 17 17 17 17 17 17
+error                : 
+
+Nonterminals, with rules where they appear
+
+key                  : 7 8
+mapping_entries      : 6 8
+mappings             : 1
+predicateobject      : 9 13 14 15
+prefixes             : 1
+relacion             : 12 14
+sources              : 2 4
+yaml                 : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . yaml
+    (1) yaml -> . prefixes mappings
+    (2) prefixes -> . PREFIXES sources
+
+    PREFIXES        shift and go to state 3
+
+    yaml                           shift and go to state 1
+    prefixes                       shift and go to state 2
+
+state 1
+
+    (0) S' -> yaml .
+
+
+
+state 2
+
+    (1) yaml -> prefixes . mappings
+    (6) mappings -> . MAPPINGS mapping_entries
+
+    MAPPINGS        shift and go to state 5
+
+    mappings                       shift and go to state 4
+
+state 3
+
+    (2) prefixes -> PREFIXES . sources
+    (3) sources -> . KEY VALUE
+    (4) sources -> . sources KEY VALUE
+    (5) sources -> .
+
+  ! shift/reduce conflict for KEY resolved as shift
+    KEY             shift and go to state 7
+    MAPPINGS        reduce using rule 5 (sources -> .)
+
+  ! KEY             [ reduce using rule 5 (sources -> .) ]
+
+    sources                        shift and go to state 6
+
+state 4
+
+    (1) yaml -> prefixes mappings .
+
+    $end            reduce using rule 1 (yaml -> prefixes mappings .)
+
+
+state 5
+
+    (6) mappings -> MAPPINGS . mapping_entries
+    (7) mapping_entries -> . key
+    (8) mapping_entries -> . mapping_entries key
+    (9) key -> . KEY SUBJECT VALUE PREDICATEOBJECT predicateobject
+
+    KEY             shift and go to state 10
+
+    mapping_entries                shift and go to state 8
+    key                            shift and go to state 9
+
+state 6
+
+    (2) prefixes -> PREFIXES sources .
+    (4) sources -> sources . KEY VALUE
+
+    MAPPINGS        reduce using rule 2 (prefixes -> PREFIXES sources .)
+    KEY             shift and go to state 11
+
+
+state 7
+
+    (3) sources -> KEY . VALUE
+
+    VALUE           shift and go to state 12
+
+
+state 8
+
+    (6) mappings -> MAPPINGS mapping_entries .
+    (8) mapping_entries -> mapping_entries . key
+    (9) key -> . KEY SUBJECT VALUE PREDICATEOBJECT predicateobject
+
+    $end            reduce using rule 6 (mappings -> MAPPINGS mapping_entries .)
+    KEY             shift and go to state 10
+
+    key                            shift and go to state 13
+
+state 9
+
+    (7) mapping_entries -> key .
+
+    KEY             reduce using rule 7 (mapping_entries -> key .)
+    $end            reduce using rule 7 (mapping_entries -> key .)
+
+
+state 10
+
+    (9) key -> KEY . SUBJECT VALUE PREDICATEOBJECT predicateobject
+
+    SUBJECT         shift and go to state 14
+
+
+state 11
+
+    (4) sources -> sources KEY . VALUE
+
+    VALUE           shift and go to state 15
+
+
+state 12
+
+    (3) sources -> KEY VALUE .
+
+    KEY             reduce using rule 3 (sources -> KEY VALUE .)
+    MAPPINGS        reduce using rule 3 (sources -> KEY VALUE .)
+
+
+state 13
+
+    (8) mapping_entries -> mapping_entries key .
+
+    KEY             reduce using rule 8 (mapping_entries -> mapping_entries key .)
+    $end            reduce using rule 8 (mapping_entries -> mapping_entries key .)
+
+
+state 14
+
+    (9) key -> KEY SUBJECT . VALUE PREDICATEOBJECT predicateobject
+
+    VALUE           shift and go to state 16
+
+
+state 15
+
+    (4) sources -> sources KEY VALUE .
+
+    KEY             reduce using rule 4 (sources -> sources KEY VALUE .)
+    MAPPINGS        reduce using rule 4 (sources -> sources KEY VALUE .)
+
+
+state 16
+
+    (9) key -> KEY SUBJECT VALUE . PREDICATEOBJECT predicateobject
+
+    PREDICATEOBJECT shift and go to state 17
+
+
+state 17
+
+    (9) key -> KEY SUBJECT VALUE PREDICATEOBJECT . predicateobject
+    (10) predicateobject -> . HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+    (11) predicateobject -> . HYPHEN PREDICATE VALUE OBJECT VALUE
+    (12) predicateobject -> . HYPHEN PREDICATE VALUE OBJECT relacion
+    (13) predicateobject -> . predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE
+    (14) predicateobject -> . predicateobject HYPHEN PREDICATE VALUE OBJECT relacion
+    (15) predicateobject -> . predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+    (16) predicateobject -> .
+
+  ! shift/reduce conflict for HYPHEN resolved as shift
+    HYPHEN          shift and go to state 19
+    KEY             reduce using rule 16 (predicateobject -> .)
+    $end            reduce using rule 16 (predicateobject -> .)
+
+  ! HYPHEN          [ reduce using rule 16 (predicateobject -> .) ]
+
+    predicateobject                shift and go to state 18
+
+state 18
+
+    (9) key -> KEY SUBJECT VALUE PREDICATEOBJECT predicateobject .
+    (13) predicateobject -> predicateobject . HYPHEN PREDICATE VALUE OBJECT VALUE
+    (14) predicateobject -> predicateobject . HYPHEN PREDICATE VALUE OBJECT relacion
+    (15) predicateobject -> predicateobject . HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET
+
+    KEY             reduce using rule 9 (key -> KEY SUBJECT VALUE PREDICATEOBJECT predicateobject .)
+    $end            reduce using rule 9 (key -> KEY SUBJECT VALUE PREDICATEOBJECT predicateobject .)
+    HYPHEN          shift and go to state 20
+
+
+state 19
+
+    (10) predicateobject -> HYPHEN . LBRACKET VALUE COMMA VALUE RBRACKET
+    (11) predicateobject -> HYPHEN . PREDICATE VALUE OBJECT VALUE
+    (12) predicateobject -> HYPHEN . PREDICATE VALUE OBJECT relacion
+
+    LBRACKET        shift and go to state 21
+    PREDICATE       shift and go to state 22
+
+
+state 20
+
+    (13) predicateobject -> predicateobject HYPHEN . PREDICATE VALUE OBJECT VALUE
+    (14) predicateobject -> predicateobject HYPHEN . PREDICATE VALUE OBJECT relacion
+    (15) predicateobject -> predicateobject HYPHEN . LBRACKET VALUE COMMA VALUE RBRACKET
+
+    PREDICATE       shift and go to state 23
+    LBRACKET        shift and go to state 24
+
+
+state 21
+
+    (10) predicateobject -> HYPHEN LBRACKET . VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 25
+
+
+state 22
+
+    (11) predicateobject -> HYPHEN PREDICATE . VALUE OBJECT VALUE
+    (12) predicateobject -> HYPHEN PREDICATE . VALUE OBJECT relacion
+
+    VALUE           shift and go to state 26
+
+
+state 23
+
+    (13) predicateobject -> predicateobject HYPHEN PREDICATE . VALUE OBJECT VALUE
+    (14) predicateobject -> predicateobject HYPHEN PREDICATE . VALUE OBJECT relacion
+
+    VALUE           shift and go to state 27
+
+
+state 24
+
+    (15) predicateobject -> predicateobject HYPHEN LBRACKET . VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 28
+
+
+state 25
+
+    (10) predicateobject -> HYPHEN LBRACKET VALUE . COMMA VALUE RBRACKET
+
+    COMMA           shift and go to state 29
+
+
+state 26
+
+    (11) predicateobject -> HYPHEN PREDICATE VALUE . OBJECT VALUE
+    (12) predicateobject -> HYPHEN PREDICATE VALUE . OBJECT relacion
+
+    OBJECT          shift and go to state 30
+
+
+state 27
+
+    (13) predicateobject -> predicateobject HYPHEN PREDICATE VALUE . OBJECT VALUE
+    (14) predicateobject -> predicateobject HYPHEN PREDICATE VALUE . OBJECT relacion
+
+    OBJECT          shift and go to state 31
+
+
+state 28
+
+    (15) predicateobject -> predicateobject HYPHEN LBRACKET VALUE . COMMA VALUE RBRACKET
+
+    COMMA           shift and go to state 32
+
+
+state 29
+
+    (10) predicateobject -> HYPHEN LBRACKET VALUE COMMA . VALUE RBRACKET
+
+    VALUE           shift and go to state 33
+
+
+state 30
+
+    (11) predicateobject -> HYPHEN PREDICATE VALUE OBJECT . VALUE
+    (12) predicateobject -> HYPHEN PREDICATE VALUE OBJECT . relacion
+    (17) relacion -> . MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 34
+    MAPPING         shift and go to state 36
+
+    relacion                       shift and go to state 35
+
+state 31
+
+    (13) predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT . VALUE
+    (14) predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT . relacion
+    (17) relacion -> . MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 37
+    MAPPING         shift and go to state 36
+
+    relacion                       shift and go to state 38
+
+state 32
+
+    (15) predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA . VALUE RBRACKET
+
+    VALUE           shift and go to state 39
+
+
+state 33
+
+    (10) predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE . RBRACKET
+
+    RBRACKET        shift and go to state 40
+
+
+state 34
+
+    (11) predicateobject -> HYPHEN PREDICATE VALUE OBJECT VALUE .
+
+    HYPHEN          reduce using rule 11 (predicateobject -> HYPHEN PREDICATE VALUE OBJECT VALUE .)
+    KEY             reduce using rule 11 (predicateobject -> HYPHEN PREDICATE VALUE OBJECT VALUE .)
+    $end            reduce using rule 11 (predicateobject -> HYPHEN PREDICATE VALUE OBJECT VALUE .)
+
+
+state 35
+
+    (12) predicateobject -> HYPHEN PREDICATE VALUE OBJECT relacion .
+
+    HYPHEN          reduce using rule 12 (predicateobject -> HYPHEN PREDICATE VALUE OBJECT relacion .)
+    KEY             reduce using rule 12 (predicateobject -> HYPHEN PREDICATE VALUE OBJECT relacion .)
+    $end            reduce using rule 12 (predicateobject -> HYPHEN PREDICATE VALUE OBJECT relacion .)
+
+
+state 36
+
+    (17) relacion -> MAPPING . VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 41
+
+
+state 37
+
+    (13) predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE .
+
+    HYPHEN          reduce using rule 13 (predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE .)
+    KEY             reduce using rule 13 (predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE .)
+    $end            reduce using rule 13 (predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE .)
+
+
+state 38
+
+    (14) predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT relacion .
+
+    HYPHEN          reduce using rule 14 (predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT relacion .)
+    KEY             reduce using rule 14 (predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT relacion .)
+    $end            reduce using rule 14 (predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT relacion .)
+
+
+state 39
+
+    (15) predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE . RBRACKET
+
+    RBRACKET        shift and go to state 42
+
+
+state 40
+
+    (10) predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .
+
+    HYPHEN          reduce using rule 10 (predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .)
+    KEY             reduce using rule 10 (predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .)
+    $end            reduce using rule 10 (predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .)
+
+
+state 41
+
+    (17) relacion -> MAPPING VALUE . CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    CONDITION       shift and go to state 43
+
+
+state 42
+
+    (15) predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .
+
+    HYPHEN          reduce using rule 15 (predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .)
+    KEY             reduce using rule 15 (predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .)
+    $end            reduce using rule 15 (predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET .)
+
+
+state 43
+
+    (17) relacion -> MAPPING VALUE CONDITION . FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    FUNCTION        shift and go to state 44
+
+
+state 44
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION . VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 45
+
+
+state 45
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE . PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    PARAMETERS      shift and go to state 46
+
+
+state 46
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS . HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    HYPHEN          shift and go to state 47
+
+
+state 47
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN . LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    LBRACKET        shift and go to state 48
+
+
+state 48
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET . VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 49
+
+
+state 49
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE . COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    COMMA           shift and go to state 50
+
+
+state 50
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA . VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 51
+
+
+state 51
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE . COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    COMMA           shift and go to state 52
+
+
+state 52
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA . VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 53
+
+
+state 53
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE . RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    RBRACKET        shift and go to state 54
+
+
+state 54
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET . HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    HYPHEN          shift and go to state 55
+
+
+state 55
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN . LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    LBRACKET        shift and go to state 56
+
+
+state 56
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET . VALUE COMMA VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 57
+
+
+state 57
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE . COMMA VALUE COMMA VALUE RBRACKET
+
+    COMMA           shift and go to state 58
+
+
+state 58
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA . VALUE COMMA VALUE RBRACKET
+
+    VALUE           shift and go to state 59
+
+
+state 59
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE . COMMA VALUE RBRACKET
+
+    COMMA           shift and go to state 60
+
+
+state 60
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA . VALUE RBRACKET
+
+    VALUE           shift and go to state 61
+
+
+state 61
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE . RBRACKET
+
+    RBRACKET        shift and go to state 62
+
+
+state 62
+
+    (17) relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET .
+
+    HYPHEN          reduce using rule 17 (relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET .)
+    KEY             reduce using rule 17 (relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET .)
+    $end            reduce using rule 17 (relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for KEY in state 3 resolved as shift
+WARNING: shift/reduce conflict for HYPHEN in state 17 resolved as shift

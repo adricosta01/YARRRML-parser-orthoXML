@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COLON COMMA CONDITION DASH FUNCTION HYPHEN KEY LBRACKET MAPPING MAPPINGS NEWLINE OBJECT PARAMETERS PREDICATE PREDICATEOBJECT PREFIXES RBRACKET SUBJECT VALUEyaml : prefixes mappingsprefixes : PREFIXES sourcessources : KEY VALUE\n               | sources KEY VALUE\n               | mappings : MAPPINGS mapping_entriesmapping_entries : key\n                       | mapping_entries keykey : KEY SUBJECT VALUE PREDICATEOBJECT predicateobject predicateobject : HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET\n                       | predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET\n                       | '
+_lr_signature = 'COMMA CONDITION FUNCTION HYPHEN KEY LBRACKET MAPPING MAPPINGS OBJECT PARAMETERS PREDICATE PREDICATEOBJECT PREFIXES RBRACKET SUBJECT VALUEyaml : prefixes mappingsprefixes : PREFIXES sourcessources : KEY VALUE\n               | sources KEY VALUE\n               | mappings : MAPPINGS mapping_entriesmapping_entries : key\n                       | mapping_entries keykey : KEY SUBJECT VALUE PREDICATEOBJECT predicateobject predicateobject : HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET\n                       | HYPHEN PREDICATE VALUE OBJECT VALUE\n                       | HYPHEN PREDICATE VALUE OBJECT relacion\n                       | predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE\n                       | predicateobject HYPHEN PREDICATE VALUE OBJECT relacion\n                       | predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET\n                       | relacion : MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET'
     
-_lr_action_items = {'PREFIXES':([0,],[3,]),'$end':([1,4,8,9,13,17,18,29,30,],[0,-1,-6,-7,-8,-12,-9,-10,-11,]),'MAPPINGS':([2,3,6,12,15,],[5,-5,-2,-3,-4,]),'KEY':([3,5,6,8,9,12,13,15,17,18,29,30,],[7,10,11,10,-7,-3,-8,-4,-12,-9,-10,-11,]),'VALUE':([7,11,14,21,22,25,26,],[12,15,16,23,24,27,28,]),'SUBJECT':([10,],[14,]),'PREDICATEOBJECT':([16,],[17,]),'HYPHEN':([17,18,29,30,],[19,20,-10,-11,]),'LBRACKET':([19,20,],[21,22,]),'COMMA':([23,24,],[25,26,]),'RBRACKET':([27,28,],[29,30,]),}
+_lr_action_items = {'PREFIXES':([0,],[3,]),'$end':([1,4,8,9,13,17,18,34,35,37,38,40,42,62,],[0,-1,-6,-7,-8,-16,-9,-11,-12,-13,-14,-10,-15,-17,]),'MAPPINGS':([2,3,6,12,15,],[5,-5,-2,-3,-4,]),'KEY':([3,5,6,8,9,12,13,15,17,18,34,35,37,38,40,42,62,],[7,10,11,10,-7,-3,-8,-4,-16,-9,-11,-12,-13,-14,-10,-15,-17,]),'VALUE':([7,11,14,21,22,23,24,29,30,31,32,36,44,48,50,52,56,58,60,],[12,15,16,25,26,27,28,33,34,37,39,41,45,49,51,53,57,59,61,]),'SUBJECT':([10,],[14,]),'PREDICATEOBJECT':([16,],[17,]),'HYPHEN':([17,18,34,35,37,38,40,42,46,54,62,],[19,20,-11,-12,-13,-14,-10,-15,47,55,-17,]),'LBRACKET':([19,20,47,55,],[21,24,48,56,]),'PREDICATE':([19,20,],[22,23,]),'COMMA':([25,28,49,51,57,59,],[29,32,50,52,58,60,]),'OBJECT':([26,27,],[30,31,]),'MAPPING':([30,31,],[36,36,]),'RBRACKET':([33,39,53,61,],[40,42,54,62,]),'CONDITION':([41,],[43,]),'FUNCTION':([43,],[44,]),'PARAMETERS':([45,],[46,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'yaml':([0,],[1,]),'prefixes':([0,],[2,]),'mappings':([2,],[4,]),'sources':([3,],[6,]),'mapping_entries':([5,],[8,]),'key':([5,8,],[9,13,]),'predicateobject':([17,],[18,]),}
+_lr_goto_items = {'yaml':([0,],[1,]),'prefixes':([0,],[2,]),'mappings':([2,],[4,]),'sources':([3,],[6,]),'mapping_entries':([5,],[8,]),'key':([5,8,],[9,13,]),'predicateobject':([17,],[18,]),'relacion':([30,31,],[35,38,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,16 +27,21 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> yaml","S'",1,None,None,None),
-  ('yaml -> prefixes mappings','yaml',2,'p_yaml','analisis_lexico.py',112),
-  ('prefixes -> PREFIXES sources','prefixes',2,'p_prefixes','analisis_lexico.py',115),
-  ('sources -> KEY VALUE','sources',2,'p_sources','analisis_lexico.py',118),
-  ('sources -> sources KEY VALUE','sources',3,'p_sources','analisis_lexico.py',119),
-  ('sources -> <empty>','sources',0,'p_sources','analisis_lexico.py',120),
-  ('mappings -> MAPPINGS mapping_entries','mappings',2,'p_mappings','analisis_lexico.py',123),
-  ('mapping_entries -> key','mapping_entries',1,'p_mapping_entries','analisis_lexico.py',126),
-  ('mapping_entries -> mapping_entries key','mapping_entries',2,'p_mapping_entries','analisis_lexico.py',127),
-  ('key -> KEY SUBJECT VALUE PREDICATEOBJECT predicateobject','key',5,'p_key','analisis_lexico.py',129),
-  ('predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET','predicateobject',6,'p_predicateobject','analisis_lexico.py',139),
-  ('predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET','predicateobject',7,'p_predicateobject','analisis_lexico.py',140),
-  ('predicateobject -> <empty>','predicateobject',0,'p_predicateobject','analisis_lexico.py',141),
+  ('yaml -> prefixes mappings','yaml',2,'p_yaml','transfConLexYacc.py',114),
+  ('prefixes -> PREFIXES sources','prefixes',2,'p_prefixes','transfConLexYacc.py',118),
+  ('sources -> KEY VALUE','sources',2,'p_sources','transfConLexYacc.py',121),
+  ('sources -> sources KEY VALUE','sources',3,'p_sources','transfConLexYacc.py',122),
+  ('sources -> <empty>','sources',0,'p_sources','transfConLexYacc.py',123),
+  ('mappings -> MAPPINGS mapping_entries','mappings',2,'p_mappings','transfConLexYacc.py',126),
+  ('mapping_entries -> key','mapping_entries',1,'p_mapping_entries','transfConLexYacc.py',130),
+  ('mapping_entries -> mapping_entries key','mapping_entries',2,'p_mapping_entries','transfConLexYacc.py',131),
+  ('key -> KEY SUBJECT VALUE PREDICATEOBJECT predicateobject','key',5,'p_key','transfConLexYacc.py',138),
+  ('predicateobject -> HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET','predicateobject',6,'p_predicateobject','transfConLexYacc.py',155),
+  ('predicateobject -> HYPHEN PREDICATE VALUE OBJECT VALUE','predicateobject',5,'p_predicateobject','transfConLexYacc.py',156),
+  ('predicateobject -> HYPHEN PREDICATE VALUE OBJECT relacion','predicateobject',5,'p_predicateobject','transfConLexYacc.py',157),
+  ('predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT VALUE','predicateobject',6,'p_predicateobject','transfConLexYacc.py',158),
+  ('predicateobject -> predicateobject HYPHEN PREDICATE VALUE OBJECT relacion','predicateobject',6,'p_predicateobject','transfConLexYacc.py',159),
+  ('predicateobject -> predicateobject HYPHEN LBRACKET VALUE COMMA VALUE RBRACKET','predicateobject',7,'p_predicateobject','transfConLexYacc.py',160),
+  ('predicateobject -> <empty>','predicateobject',0,'p_predicateobject','transfConLexYacc.py',161),
+  ('relacion -> MAPPING VALUE CONDITION FUNCTION VALUE PARAMETERS HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET HYPHEN LBRACKET VALUE COMMA VALUE COMMA VALUE RBRACKET','relacion',22,'p_relacion','transfConLexYacc.py',178),
 ]

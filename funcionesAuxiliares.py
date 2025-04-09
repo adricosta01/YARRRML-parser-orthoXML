@@ -1,3 +1,20 @@
+
+SCHEMA = "1406106202578/orthoxml.xsd"
+ONTOLOGIA = "1406106207741/OGO.owl"
+SOURCE = "1406106195967/InParanoid.A.fumigatus-E.coliK12.ortho.XML"
+
+def cabecera():
+    xml_template = f"""<?xml version="1.0" encoding="UTF-8" ?>
+<Alignment>
+<schemas><schema>{SCHEMA}</schema></schemas>
+<xmls><xml>{SOURCE}</xml></xmls>
+<ontotarget>{ONTOLOGIA}</ontotarget>"""
+    return xml_template
+
+def orthoFinal():
+    return f"""
+</Alignment>"""
+
 def generarArch2Class(subject, class_id):
     xml_template = f"""
 <map>
