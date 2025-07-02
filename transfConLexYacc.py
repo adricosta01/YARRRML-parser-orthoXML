@@ -3,6 +3,8 @@ import ply.yacc as yacc;
 import funcionesAuxiliares as funcAux;
 import argparse;
 
+destination = ""
+
 class Resultado:
     def __init__(self, tipo, valor):
         self.tipo = tipo
@@ -34,22 +36,22 @@ def t_MAPPINGS(t):
     return t
 
 def t_SUBJECT(t):
-    r'subject:[\s\n ]'
+    r'(s:|subject:)[\s\n ]'
     t.value = t.value[:-1]
     return t
 
 def t_PREDICATEOBJECT(t):
-    r'po:[\s\n ]'
+    r'(po:|predicateobjects:)[\s\n ]'
     t.value = t.value[:-1]
     return t
 
 def t_PREDICATE(t):
-    r'p:[\s\n ]'
+    r'(p:|predicate:)[\s\n ]'
     t.value = t.value[:-1]
     return t
 
 def t_OBJECT(t):
-    r'o:[\s\n ]'
+    r'(o:|object:)[\s\n ]'
     t.value = t.value[:-1]
     return t
 
@@ -79,7 +81,8 @@ def t_KEY(t):
     return t
 
 def t_VALUE(t):
-    r'[a-zA-Z:/.@~_0-9#]+'
+    r'([a-zA-Z:/.@~_0-9#]+)|(\'[^\']+\')'
+    t.value = t.value.replace("'", "").strip()
     t.value = t.value.strip()
     return t
 
@@ -156,6 +159,12 @@ def p_key(p):
         if label_id != "" and class_id != "":
             break
 
+    if class_id == "":
+        destination.write("Error no hay clase en el mapeo con subject "+p[3])
+        print("Error no hay clase en el mapeo con subject "+p[3])
+        raise SyntaxError("Error en la producción de 'predicateobject': debe haber al menos una regla entidad.")
+
+    
     if label_id != "": #Si hay etiqueta generamos el Arch2Class correspondiente
         p[0][0] = funcAux.generarArch2ClassLabel(subject, class_id, label_id)
     else:
@@ -182,7 +191,7 @@ def p_predicateobject(p):
     elif len(p) == 6: # Caso - p: VALOR - o: VALOR || - p: VALOR - o: relacion
         p[0] = [(p[3], p[5])]
     elif len(p) == 7: 
-        if p[3] == "p:": # Caso predicateobject - p: VALOR - o: VALOR 
+        if p[3] == "p:": # Caso predicateobject - p: VALOR - o: VALOR || -p: VALOR -o: relacion
             p[0] = p[1]
             p[0].append(([p[4]],p[6]))
         else:                   
@@ -217,11 +226,13 @@ if __name__ == '__main__':
     parser.add_argument('destination', type=argparse.FileType('w'), help='file that will contain the result')
     parser.add_argument('--debug', help='print debug messages', action='store_true')
     
+
     args = parser.parse_args()
     source = args.source
     destination = args.destination
     
     yaml = source.read()
+
 
     orthoXML = compilador.parse(yaml)
     destination.write(orthoXML)
